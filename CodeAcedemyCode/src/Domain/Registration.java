@@ -2,11 +2,6 @@ package Domain;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-import java.util.Date;
-
-//import java.sql.Date;
-
 public class Registration {
     private Date registrationate;
     private ArrayList<Student> emailAddress = new ArrayList<>();
