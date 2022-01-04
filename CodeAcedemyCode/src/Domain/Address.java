@@ -2,11 +2,19 @@ package Domain;
 
 public class Address {
     private String streetName;
-
     private String city;
     private String zipCode;
     private int houseNumber;
+    private String houseNumberAdd;
     private String country;
+
+    public String getHouseNumberAdd() {
+        return houseNumberAdd;
+    }
+
+    public void setHouseNumberAdd(String houseNumberAdd) {
+        this.houseNumberAdd = houseNumberAdd;
+    }
 
     public String getStreetName() {
         return streetName;

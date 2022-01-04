@@ -1,11 +1,21 @@
 package Domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Student {
     private String emailAddress;
     private String name;
-    private String birthPlace;
+    private Date birthDay;
+
+    public Date getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
+    }
+
     private String gender;
     private Address address;
     private ArrayList<Registration> registrations = new ArrayList<>();
@@ -36,14 +46,6 @@ public class Student {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getBirthPlace() {
-        return birthPlace;
-    }
-
-    public void setBirthPlace(String birthPlace) {
-        this.birthPlace = birthPlace;
     }
 
     public String getGender() {
