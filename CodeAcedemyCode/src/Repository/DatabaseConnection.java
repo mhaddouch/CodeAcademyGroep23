@@ -12,7 +12,7 @@ public class DatabaseConnection {
 
         // Dit zijn de instellingen voor de verbinding. Vervang de databaseName indien
         // deze voor jou anders is.
-        String connectionUrl = "jdbc:sqlserver://localhost;databaseName=Bibliotheek;integratedSecurity=true;";
+        String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl:1443;databaseName=CodeCademy23;user=JohnDoe;password=DoeJohn23!;";
 
         // Connection beheert informatie over de connectie met de database.
         Connection con = null;
@@ -31,7 +31,7 @@ public class DatabaseConnection {
             con = DriverManager.getConnection(connectionUrl);
 
             // Stel een SQL query samen.
-            String SQL = "SELECT TOP 5 * FROM Boek";
+            String SQL = "SELECT TOP 5 * FROM student";
             stmt = con.createStatement();
             // Voer de query uit op de database.
             rs = stmt.executeQuery(SQL);
@@ -42,9 +42,6 @@ public class DatabaseConnection {
             // ze.
             while (rs.next()) {
                 // Vraag per row de kolommen in die row op.
-                int ISBN = rs.getInt("ISBN");
-                String title = rs.getString("Titel");
-                String author = rs.getString("Auteur");
 
                 // Print de kolomwaarden.
                 // System.out.println(ISBN + " " + title + " " + author);
@@ -53,7 +50,7 @@ public class DatabaseConnection {
                 // dat wilt.
                 // %d = decimal, %s = string, %-32s = string, links uitgelijnd, 32 characters
                 // breed.
-                System.out.format("| %7d | %-32s | %-24s | \n", ISBN, title, author);
+
             }
             System.out.println(String.format("| %7s | %-32s | %-24s |\n", " ", " ", " ").replace(" ", "-"));
 
