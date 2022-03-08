@@ -13,7 +13,8 @@ public class DatabaseConnection {
         // Dit zijn de instellingen voor de verbinding. Vervang de databaseName indien
         // deze voor jou anders is.
         String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl:1443;databaseName=CodeCademy23;user=JohnDoe;password=DoeJohn23!;";
-
+        // String connectionUrl =
+        // "jdbc:sqlserver://localhost;databaseName=Bibliotheek;integratedSecurity=true";
         // Connection beheert informatie over de connectie met de database.
         Connection con = null;
 
@@ -31,7 +32,7 @@ public class DatabaseConnection {
             con = DriverManager.getConnection(connectionUrl);
 
             // Stel een SQL query samen.
-            String SQL = "SELECT TOP 5 * FROM student";
+            String SQL = "SELECT  * FROM Certificate";
             stmt = con.createStatement();
             // Voer de query uit op de database.
             rs = stmt.executeQuery(SQL);
@@ -43,13 +44,22 @@ public class DatabaseConnection {
             while (rs.next()) {
                 // Vraag per row de kolommen in die row op.
 
+                // int ISBN = rs.getInt("ISBN");
+                // String title = rs.getString("Titel");
+                // String author = rs.getString("Auteur");
+
+                String certificateId = rs.getString("certificateId");
+                double grade = rs.getInt("grade");
+                String nameEmployer = rs.getString("nameEmployer");
+
                 // Print de kolomwaarden.
                 // System.out.println(ISBN + " " + title + " " + author);
-
+                System.out.println(certificateId + " " + grade + " " + nameEmployer);
                 // Met 'format' kun je de string die je print het juiste formaat geven, als je
                 // dat wilt.
                 // %d = decimal, %s = string, %-32s = string, links uitgelijnd, 32 characters
                 // breed.
+                // System.out.format("| %7d | %-32s | %-24s | \n", ISBN, title, author);
 
             }
             System.out.println(String.format("| %7s | %-32s | %-24s |\n", " ", " ", " ").replace(" ", "-"));
