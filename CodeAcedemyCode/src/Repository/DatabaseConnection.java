@@ -32,7 +32,7 @@ public class DatabaseConnection {
             con = DriverManager.getConnection(connectionUrl);
 
             // Stel een SQL query samen.
-            String SQL = "SELECT  * FROM Certificate";
+            String SQL = "SELECT * FROM Certificate ";
             stmt = con.createStatement();
             // Voer de query uit op de database.
             rs = stmt.executeQuery(SQL);
