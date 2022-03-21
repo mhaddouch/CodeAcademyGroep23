@@ -8,83 +8,110 @@ import java.sql.*;
  */
 public class DatabaseConnection {
 
-    public static void main(String[] args) {
+    private Connection connection;
 
-        // Dit zijn de instellingen voor de verbinding. Vervang de databaseName indien
-        // deze voor jou anders is.
-        String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl:1443;databaseName=CodeCademy23;user=JohnDoe;password=DoeJohn23!;";
-        // String connectionUrl =
-        // "jdbc:sqlserver://localhost;databaseName=Bibliotheek;integratedSecurity=true";
-        // Connection beheert informatie over de connectie met de database.
-        Connection con = null;
+    // The Statement object has been defined as a field because some methods
+    // may return a ResultSet object. If so, the statement object may not
+    // be closed as you would do when it was a local variable in the query
+    // execution method.
+    private Statement statement;
 
-        // Statement zorgt dat we een SQL query kunnen uitvoeren.
-        Statement stmt = null;
+    public DatabaseConnection() {
+        connection = null;
+        statement = null;
+    }
 
-        // ResultSet is de tabel die we van de database terugkrijgen.
-        // We kunnen door de rows heen stappen en iedere kolom lezen.
-        ResultSet rs = null;
+    public boolean openConnection() {
+        boolean result = false;
 
-        try {
-            // 'Importeer' de driver die je gedownload hebt.
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            // Maak de verbinding met de database.
-            con = DriverManager.getConnection(connectionUrl);
+        if (connection == null) {
+            try {
 
-            // Stel een SQL query samen.
-            String SQL = "SELECT * FROM Certificate ";
-            stmt = con.createStatement();
-            // Voer de query uit op de database.
-            rs = stmt.executeQuery(SQL);
+                // Try to create a connection with the library database
 
-            System.out.print(String.format("| %7s | %-32s | %-24s |\n", " ", " ", " ").replace(" ", "-"));
+                connection = DriverManager.getConnection(
+                        "jdbc:sqlserver://aei-sql2.avans.nl:1443;databaseName=CodeCademy23;user=JohnDoe;password=DoeJohn23!;");
 
-            // Als de resultset waarden bevat dan lopen we hier door deze waarden en printen
-            // ze.
-            while (rs.next()) {
-                // Vraag per row de kolommen in die row op.
+                if (connection != null) {
+                    statement = connection.createStatement();
+                }
 
-                // int ISBN = rs.getInt("ISBN");
-                // String title = rs.getString("Titel");
-                // String author = rs.getString("Auteur");
-
-                String certificateId = rs.getString("certificateId");
-                double grade = rs.getInt("grade");
-                String nameEmployer = rs.getString("nameEmployer");
-
-                // Print de kolomwaarden.
-                // System.out.println(ISBN + " " + title + " " + author);
-                System.out.println(certificateId + " " + grade + " " + nameEmployer);
-                // Met 'format' kun je de string die je print het juiste formaat geven, als je
-                // dat wilt.
-                // %d = decimal, %s = string, %-32s = string, links uitgelijnd, 32 characters
-                // breed.
-                // System.out.format("| %7d | %-32s | %-24s | \n", ISBN, title, author);
-
+                result = true;
+            } catch (SQLException e) {
+                System.out.println(e);
+                result = false;
             }
-            System.out.println(String.format("| %7s | %-32s | %-24s |\n", " ", " ", " ").replace(" ", "-"));
-
+        } else {
+            // A connection was already initalized.
+            result = true;
         }
 
-        // Handle any errors that may have occurred.
-        catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null)
-                try {
-                    rs.close();
-                } catch (Exception e) {
-                }
-            if (stmt != null)
-                try {
-                    stmt.close();
-                } catch (Exception e) {
-                }
-            if (con != null)
-                try {
-                    con.close();
-                } catch (Exception e) {
-                }
+        return result;
+    }
+
+    public boolean connectionIsOpen() {
+        boolean open = false;
+
+        if (connection != null && statement != null) {
+            try {
+                open = !connection.isClosed() && !statement.isClosed();
+            } catch (SQLException e) {
+                System.out.println(e);
+                open = false;
+            }
+        }
+        // Else, at least one the connection or statement fields is null, so
+        // no valid connection.
+
+        return open;
+    }
+
+    public void closeConnection() {
+        try {
+            statement.close();
+
+            // Close the connection
+            connection.close();
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
+
+    public ResultSet executeSQLSelectStatement(String query) {
+        ResultSet resultset = null;
+
+        // First, check whether a some query was passed and the connection with
+        // the database.
+        if (query != null && connectionIsOpen()) {
+            // Then, if succeeded, execute the query.
+            try {
+                resultset = statement.executeQuery(query);
+            } catch (SQLException e) {
+                System.out.println(e);
+                resultset = null;
+            }
+        }
+
+        return resultset;
+    }
+
+    public boolean executeSQLDeleteStatement(String query) {
+        boolean result = false;
+
+        // First, check whether a some query was passed and the connection with
+        // the database.
+        if (query != null && connectionIsOpen()) {
+            // Then, if succeeded, execute the query.
+            try {
+                statement.executeUpdate(query);
+                result = true;
+            } catch (SQLException e) {
+                System.out.println(e);
+                result = false;
+            }
+        }
+
+        return result;
+    }
+
 }

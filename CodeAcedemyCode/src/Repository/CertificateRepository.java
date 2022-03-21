@@ -5,7 +5,31 @@ import java.sql.*;
 import Domain.*;
 
 public class CertificateRepository {
-    String SQL = "SELECT * FROM Certificate ";stmt=con.createStatement();
-    // Voer de query uit op de database.
-    rs=stmt.executeQuery(SQL);
+    DatabaseConnection connection = new DatabaseConnection();
+
+    public void selectCertificate() {
+
+    }
+
+    public void addCertificate() {
+
+    }
+
+    public boolean deleteCertificate(String certificateID) {
+        if (!connection.connectionIsOpen())
+            connection.openConnection();
+
+        boolean result = connection
+                .executeSQLDeleteStatement(
+                        "DELETE FROM Certificate WHERE nameEmployer =  '" + certificateID + "'");
+
+        connection.closeConnection();
+
+        return result;
+
+    }
+
+    public void updateCertificate() {
+
+    }
 }
