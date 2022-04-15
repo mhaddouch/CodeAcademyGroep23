@@ -113,5 +113,23 @@ public class DatabaseConnection {
 
         return result;
     }
+    public boolean executeSQLInsertStatement(String query) {
+        boolean result = false;
+
+        // First, check whether a some query was passed and the connection with
+        // the database.
+        if (query != null && connectionIsOpen()) {
+            // Then, if succeeded, execute the query.
+            try {
+                statement.executeUpdate(query);
+                result = true;
+            } catch (SQLException e) {
+                System.out.println(e);
+                result = false;
+            }
+        }
+
+        return result;
+    }
 
 }

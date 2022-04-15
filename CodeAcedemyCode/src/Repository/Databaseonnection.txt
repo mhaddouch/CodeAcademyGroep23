@@ -6,7 +6,7 @@ import java.sql.*;
  * Dit is een voorbeeld Java toepassing waarin je verbinding maakt met een
  * SQLServer database.
  */
-public class DatabaseConnection {
+public class Databaseonnection {
 
     public static void main(String[] args) {
 
