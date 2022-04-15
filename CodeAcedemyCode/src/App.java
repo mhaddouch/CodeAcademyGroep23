@@ -10,7 +10,8 @@ public class App {
 
        // certificate.deleteCertificate("mike");
         StudentRepository student = new StudentRepository();
-       student.addStudent("email3@hotmail.com", "berd", "boob", "M", "3aaaaaa1-bbbb-cccc-dddd-2eeeeeeeeeee");    
+     //  student.addStudent("email3@hotmail.com", "berd", "boob", "M", "3aaaaaa1-bbbb-cccc-dddd-2eeeeeeeeeee"); 
 
+     
     }
 }
